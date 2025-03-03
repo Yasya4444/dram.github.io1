@@ -368,7 +368,7 @@ error_reporting(E_ALL);
     </div>
 
     <footer>
-        <p>&copy; 2024 Библиотека Барабанщика</p>
+        <p>&copy; 2025 Библиотека Барабанщика</p>
     </footer>
 
     <script>
