@@ -107,7 +107,7 @@
 
         .catalog-grid {
             display: grid;
-		            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
         }
 
@@ -146,60 +146,71 @@
             <img src="foro/drum-set.jpg" alt="Drum Set" style="max-width: 50%; height: auto;">
         </section>
 
-        <section id="catalog" class="section">
-            <h2>Каталог Книг</h2>
-            <div class="catalog-grid">
-                <?php
-                // Function to read files from a directory
-                function getFilesFromDir($dir, $extension) {
-                    $files = [];
-                    if (is_dir($dir)) {
-                        $scan = scandir($dir);
-                        foreach ($scan as $file) {
-                            if (!is_dir($file) && pathinfo($file, PATHINFO_EXTENSION) == $extension) {
-                                $files[] = $file;
-                            }
-                        }
-                    }
-                    return $files;
-                }
+       <section id="catalog" class="section">
+    <h2>Каталог Книг</h2>
+    <div class="catalog-grid">
+        <?php
+        // 1. Подключение к базе данных
+        include 'db_config.php'; // Подключаем файл с настройками БД
 
-                // Get PDF files from the books directory
-                $pdfFiles = getFilesFromDir("books", "pdf");
+        // Создаем соединение
+        $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
-                // Get JPG files from the foro directory
-                $jpgFiles = getFilesFromDir("foro", "jpg");
+        // Проверяем соединение
+        if ($conn->connect_error) {
+            die("Ошибка подключения к базе данных: " . $conn->connect_error);
+        }
 
+        // 2. Выполнение SQL-запроса
+        $sql = "SELECT id, title, author, image, pdf FROM books";
+        $result = $conn->query($sql);
 
-		                    // Sample book data (you can expand this)
-                $books = [
-                    ["title" => "Advanced Techniques for the Modern Drummer", "author" => "Jim Chapin", "image" => "book1.jpg", "pdf" => "book1.pdf"],
-                    ["title" => "Stick Control: For the Snare Drummer", "author" => "George L. Stone", "image" => "book2.jpg", "pdf" => "book2.pdf"],
-                    ["title" => "The New Breed", "author" => "Gary Chester", "image" => "book3.jpg", "pdf" => "book3.pdf"],
-                    ["title" => "Modern Drummer", "author" => "MD Staff", "image" => "book4.jpg", "pdf" => "book4.pdf"],
-                    ["title" => "Progressive Steps to Syncopation For The Modern Drummer", "author" => "Ted Reed", "image" => "book5.jpg", "pdf" => "book5.pdf"],
-                    ["title" => "Alfred's Drum Method, Bk 1", "author" => "Sandy Feldstein and Dave Black", "image" => "book6.jpg", "pdf" => "book6.pdf"],
-                    ["title" => "Realistic Rock Drum Method", "author" => "Carmine Appice", "image" => "book7.jpg", "pdf" => "book7.pdf"],
-                    ["title" => "Drumset 101", "author" => "Dan Britt", "image" => "book8.jpg", "pdf" => "book8.pdf"]
-                ];
-                $i = 0;
-                foreach ($books as $book):
-                    $book['image'] = "foro/" . $book['image'];
-                    $book['pdf'] = "books/" . $book['pdf'];
-                 ?>
+        // 3. Обработка результатов запроса
+        if ($result->num_rows > 0) {
+            // Выводим данные о книгах
+            while ($row = $result->fetch_assoc()) {
+                $image_path = "foro/" . htmlspecialchars($row["image"]); // Экранирование!
+                $pdf_path = "books/" . htmlspecialchars($row["pdf"]);   // Экранирование!
 
-                    <div class="book">
-			    <img src="<?php echo $book['image']; ?>" alt="<?php echo $book['title']; ?>">
-                        <h3><?php echo $book['title']; ?></h3>
-                        <p>Автор: <?php echo $book['author']; ?></p>
-                        <a href="<?php echo $book['pdf']; ?>">Читать</a>
-                    </div>
-                <?php
-                endforeach;
+                echo "<div class='book'>";
+                echo "<img src='" . $image_path . "' alt='" . htmlspecialchars($row["title"]) . "'>"; // Экранирование!
+                echo "<h3>" . htmlspecialchars($row["title"]) . "</h3>"; // Экранирование!
+                echo "<p>Автор: " . htmlspecialchars($row["author"]) . "</p>"; // Экранирование!
+                echo "<a href='" . $pdf_path . "' target='_blank'>Читать</a>"; // Экранирование!
+                echo "</div>";
+            }
+        } else {
+            echo "<p>В каталоге пока нет книг.</p>";
+        }
 
-                ?>
-            </div>
-        </section>
+        // 4. Закрытие соединения с базой данных
+        $conn->close();
+        ?>
+    </div>
+</section>
+
+<section id="book_month" class="section">
+    <h2>Книга Месяца</h2>
+    <?php
+    $bookOfMonth = [
+        "title" => "Mastering the Art of Drumming",
+        "author" => "John Riley",
+        "image" => "book_month.jpg",
+        "pdf" => "book_month.pdf",
+        "excerpt" => "A comprehensive guide to jazz drumming techniques, covering everything from basic timekeeping to advanced soloing concepts."
+    ];
+    $bookOfMonth['image'] = "foro/" . $bookOfMonth['image'];
+    $bookOfMonth['pdf'] = "books/" . $bookOfMonth['pdf'];
+    ?>
+    <div class="book-month">
+        <img src="<?php echo htmlspecialchars("foro/" . $bookOfMonth['image']); ?>" alt="<?php echo htmlspecialchars($bookOfMonth['title']); ?>">
+        <h3><?php echo htmlspecialchars($bookOfMonth['title']); ?></h3>
+        <p>Автор: <?php echo htmlspecialchars($bookOfMonth['author']); ?></p>
+        <p>Выжимка: <?php echo htmlspecialchars($bookOfMonth['excerpt']); ?></p>
+        <a href="<?php echo htmlspecialchars("books/" . $bookOfMonth['pdf']); ?>">Читать</a>
+    </div>
+</section>
+
 
         <section id="book_month" class="section">
             <h2>Книга Месяца</h2>
