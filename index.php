@@ -351,12 +351,14 @@ error_reporting(E_ALL);
                 echo "<p>Автор: " . htmlspecialchars($row["author"]) . "</p>"; // Экранирование!
                 echo "<a href='" . $pdf_path . "' target='_blank'>Читать</a>"; // Экранирование!
                 echo "</div>";
-            } else {
+            }
+        } else {
             echo "<p>Ничего не найдено по вашему запросу.</p>";
         }
-        $conn->close();
-        </section>
-
+    }
+    $conn->close();
+    ?>
+</section>
 
 <section id="contact" class="section">
     <h2>Контакты</h2>
