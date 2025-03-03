@@ -1,8 +1,4 @@
-<?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -352,7 +348,8 @@ error_reporting(E_ALL);
                 echo "<a href='" . $pdf_path . "' target='_blank'>Читать</a>"; // Экранирование!
                 echo "</div>";
             }
-        } else {
+        } 
+        else {
             echo "<p>Ничего не найдено по вашему запросу.</p>";
         }
     }
@@ -377,8 +374,7 @@ error_reporting(E_ALL);
             sections.forEach(section => section.classList.remove('active'));
 
             let section = document.getElementById(sectionId);
-            se
-ction.classList.add('active');
+            section.classList.add('active');
         }
 
         showSection('home');
