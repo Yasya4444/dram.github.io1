@@ -107,7 +107,7 @@
 
         .catalog-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
         }
 
@@ -155,127 +155,74 @@
 
     <div class="container">
 
-        <section id="home" class="section active">
-            <h2>Добро пожаловать в Библиотеку Барабанщика!</h2>
-            <p>Здесь вы найдете множество ресурсов для развития своих навыков игры на барабанах.</p>
-            <img src="foro/drum-set.jpg" alt="Ударная установка" style="max-width: 50%; height: auto;">
-        </section>
-
-        <section id="catalog" class="section">
-            <h2>Каталог Книг</h2>
-            <div class="catalog-grid">
-                <?php
-                // Функция для чтения файлов из директории
-                function getFilesFromDir($dir, $extension)
-                {
-                    $files = [];
-                    if (is_dir($dir) && is_readable($dir)) {
-                        $scan = scandir($dir);
-                        foreach ($scan as $file) {
-                            if (!is_dir($dir . '/' . $file) && pathinfo($file, PATHINFO_EXTENSION) == $extension) {
-                                                                $files[] = $file;
-                            }
-                        }
-                    } else {
-                        error_log("Директория '$dir' не найдена или недоступна для чтения.");
-                        echo "<p>Ошибка: Не удалось получить доступ к директории с книгами.</p>"; // Сообщение пользователю
-                        return []; // Возвращаем пустой массив, чтобы избежать дальнейших ошибок
-                    }
-                    return $files;
-                }
-
-                // Определяем пути к директориям
-                $books_dir = __DIR__ . "/books"; // Используем __DIR__ для переносимости
-                $foro_dir = __DIR__ . "/foro";   // Используем __DIR__ для переносимости
-
-
-                // Получаем PDF файлы из директории с книгами
-                $pdfFiles = getFilesFromDir($books_dir, "pdf");
-
-                // Получаем JPG файлы из директории с изображениями
-                $jpgFiles = getFilesFromDir($foro_dir, "jpg");
-
-
-                // Пример данных о книгах (можно расширить - идеально из БД или файла данных)
-                $books = [
-                    ["title" => "Advanced Techniques for the Modern Drummer", "author" => "Jim Chapin", "image" => "book1.jpg", "pdf" => "book1.pdf"],
-                    ["title" => "Stick Control: For the Snare Drummer", "author" => "George L. Stone", "image" => "book2.jpg", "pdf" => "book2.pdf"],
-                    ["title" => "The New Breed", "author" => "Gary Chester","image" => "book3.jpg", "pdf" => "book3.pdf"],
-                    ["title" => "Modern Drummer", "author" => "MD Staff", "image" => "book4.jpg", "pdf" => "book4.pdf"],
-                    ["title" => "Progressive Steps to Syncopation For The Modern Drummer", "author" => "Ted Reed", "image" => "book5.jpg", "pdf" => "book5.pdf"],
-                    ["title" => "Alfred's Drum Method, Bk 1", "author" => "Sandy Feldstein and Dave Black", "image" => "book6.jpg", "pdf" => "book6.pdf"],
-                    ["title" => "Realistic Rock Drum Method", "author" => "Carmine Appice", "image" => "book7.jpg", "pdf" => "book7.pdf"],
-                    ["title" => "Drumset 101", "author" => "Dan Britt", "image" => "book8.jpg", "pdf" => "book8.pdf"]
-                ];
-
-                foreach ($books as $book) :
-                    $image_path = "foro/" . $book['image'];
-                    $pdf_path = "books/" . $book['pdf'];
-
-                    //Проверяем существование файлов для большей надежности:
-                    if (!file_exists($image_path) || !file_exists($pdf_path)) {
-                        echo "<p>Ошибка: Отсутствуют файлы для книги {$book['title']}</p>";
-                        continue; // Пропускаем к следующей книге
-                    }
-
-                    ?>
-                    <div class="book">
-                        <img src="<?php echo $image_path; ?>" alt="Обложка книги: <?php echo htmlspecialchars($book['title'], ENT_QUOTES, 'UTF-8'); ?>">
-                        <h3><?php echo htmlspecialchars($book['title'], ENT_QUOTES, 'UTF-8'); ?></h3>
-                        <p>Автор: <?php echo htmlspecialchars($book['author'], ENT_QUOTES, 'UTF-8'); ?></p>
-                        <a href="<?php echo htmlspecialchars($pdf_path, ENT_QUOTES, 'UTF-8'); ?>" target="_blank">Читать</a>
-                    </div>
-                <?php
-                endforeach;
-                ?>
-            </div>
-        </section>
-
-        <section id="book_month" class="section">
-            <h2>Книга Месяца</h2>
-            <?php
-            $bookOfMonth = [
-                "title" => "Mastering the Art of Drumming",
-                "author" => "John Riley",
-                "image" => "book_month.jpg",
-                "pdf" => "book_month.pdf",
-                "excerpt" => "A comprehensive guide to jazz drumming techniques, covering everything from basic timekeeping to advanced soloing concepts."
-            ];
-            $bookOfMonth['image'] = "foro/" . $bookOfMonth['image'];
-            $bookOfMonth['pdf'] = "books/" . $bookOfMonth['pdf'];
-            ?>
-            <div class="book-month">
-                <img src="<?php echo htmlspecialchars($bookOfMonth['image'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($bookOfMonth['title'], ENT_QUOTES, 'UTF-8'); ?>">
-                <h3><?php echo htmlspecialchars($bookOfMonth['title'], ENT_QUOTES, 'UTF-8'); ?></h3>
-                <p>Автор: <?php echo htmlspecialchars($bookOfMonth['author'], ENT_QUOTES, 'UTF-8'); ?></p>
-                <p>Выжимка: <?php echo htmlspecialchars($bookOfMonth['excerpt'], ENT_QUOTES, 'UTF-8'); ?></p>
-                <a href="<?php echo htmlspecialchars($bookOfMonth['pdf'], ENT_QUOTES, 'UTF-8'); ?>">Читать</a>
-            </div>
-        </section>
-
-        <section id="add_books" class="section">
-            <h2>Добавить книги</h2>
-            <p>Извините, эта функция еще не реализована.</p>
-        </section>
-
-        <section id="search" class="section">
-            <h2>Поиск</h2>
-            <form id="searchForm">
-                <input type="text" placeholder="Введите название книги или автора...">
-                <button type="submit">Поиск</button>
-            </form>
-            <div id="searchResults"><!-- Search results will be displayed here -->
-            </div>
-        </section>
-
+            <div class="section active" id="home">
+        <h2>Добро пожаловать в Библиотеку Барабанщика!</h2>
+        <p>Здесь вы можете найти множество книг о барабанах и музыке.</p>
     </div>
 
+    <div class="section" id="catalog">
+        <h2>Каталог книг</h2>
+        <div id="bookList" class="catalog-grid">
+            <!-- Здесь будут отображаться книги -->
+        </div>
+    </div>
+
+    <div class="section" id="add_books">
+        <h2>Добавить книгу</h2>
+        <form action="add_book.php" method="POST">
+            <input type="text" name="title" placeholder="Название книги" required>
+            <input type="text" name="author" placeholder="Автор" required>
+            <button type="submit">Добавить книгу</button>
+        </form>
+    </div>
+
+    <div class="section" id="search">
+        <h2>Поиск книги</h2>
+        <form id="searchForm" action="search.php" method="POST">
+            <input type="text" name="query" placeholder="Введите название книги или автора" required>
+            <button type="submit">Поиск</button>
+        </form>
+        <div id="searchResults">
+            <!-- Результаты поиска будут здесь -->
+        </div>
+    </div>
+    
     <footer>
-        &copy; 2024 Библиотека Барабанщика
+        <p>&copy; 2024 Библиотека Барабанщика</p>
     </footer>
 
+    <script>
+      const books = [
+        { title: "Книга 1", author: "Автор 1", image: "image1.jpg" },
+        { title: "Книга 2", author: "Автор 2", image: "image2.jpg" },
+        { title: "Книга 3", author: "Автор 3", image: "image3.jpg" },
+        { title: "Книга 4", author: "Автор 4", image: "image4.jpg" },
+        { title: "Книга 5", author: "Автор 5", image: "image5.jpg" },
+        { title: "Книга 6", author: "Автор 6", image: "image6.jpg" }
+      ];
+
+      function displayBooks() {
+        const bookList = document.getElementById("bookList");
+        if (bookList) {
+          let bookHTML = "";
+          books.forEach((book) => {
+            bookHTML += `
+              <div class="book">
+                <img src="${book.image}" alt="${book.title}" />
+                <h3>${book.title}</h3>
+                <p>Автор: ${book.author}</p>
+              </div>
+            `;
+          });
+          bookList.innerHTML = bookHTML;
+        }
+      }
+
+      // Call displayBooks when the page loads
+      window.onload = function() {
+        displayBooks();
+      };
+    </script>
 </body>
 </html>
-                
-
 
