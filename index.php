@@ -354,9 +354,8 @@ error_reporting(E_ALL);
             } else {
             echo "<p>Ничего не найдено по вашему запросу.</p>";
         }
-$conn->close();
-?>
-</section>
+        $conn->close();
+        </section>
 
 
 <section id="contact" class="section">
