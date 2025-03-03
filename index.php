@@ -1,8 +1,6 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Библиотека Барабанщика</title>
@@ -109,7 +107,7 @@
 
         .catalog-grid {
             display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
         }
 
@@ -126,6 +124,21 @@
             margin-bottom: 10px;
         }
     </style>
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            var sections = document.querySelectorAll('.section');
+            sections.forEach(function(section) {
+                section.classList.remove('active');
+            });
+
+            // Show the selected section
+            var selectedSection = document.getElementById(sectionId);
+            if (selectedSection) {
+                selectedSection.classList.add('active');
+            }
+        }
+    </script>
 </head>
 <body>
 
@@ -145,74 +158,78 @@
         <section id="home" class="section active">
             <h2>Добро пожаловать в Библиотеку Барабанщика!</h2>
             <p>Здесь вы найдете множество ресурсов для развития своих навыков игры на барабанах.</p>
-            <img src="foro/drum-set.jpg" alt="Drum Set" style="max-width: 50%; height: auto;">
+            <img src="foro/drum-set.jpg" alt="Ударная установка" style="max-width: 50%; height: auto;">
         </section>
 
-       <section id="catalog" class="section">
-    <h2>Каталог Книг</h2>
-    <div class="catalog-grid">
-        <?php
-        // 1. Подключение к базе данных
-        include 'db_config.php'; // Подключаем файл с настройками БД
+        <section id="catalog" class="section">
+            <h2>Каталог Книг</h2>
+            <div class="catalog-grid">
+                <?php
+                // Функция для чтения файлов из директории
+                function getFilesFromDir($dir, $extension)
+                {
+                    $files = [];
+                    if (is_dir($dir) && is_readable($dir)) {
+                        $scan = scandir($dir);
+                        foreach ($scan as $file) {
+                            if (!is_dir($dir . '/' . $file) && pathinfo($file, PATHINFO_EXTENSION) == $extension) {
+                                                                $files[] = $file;
+                            }
+                        }
+                    } else {
+                        error_log("Директория '$dir' не найдена или недоступна для чтения.");
+                        echo "<p>Ошибка: Не удалось получить доступ к директории с книгами.</p>"; // Сообщение пользователю
+                        return []; // Возвращаем пустой массив, чтобы избежать дальнейших ошибок
+                    }
+                    return $files;
+                }
 
-        // Создаем соединение
-        $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+                // Определяем пути к директориям
+                $books_dir = __DIR__ . "/books"; // Используем __DIR__ для переносимости
+                $foro_dir = __DIR__ . "/foro";   // Используем __DIR__ для переносимости
 
-        // Проверяем соединение
-        if ($conn->connect_error) {
-            die("Ошибка подключения к базе данных: " . $conn->connect_error);
-        }
 
-        // 2. Выполнение SQL-запроса
-        $sql = "SELECT id, title, author, image, pdf FROM books";
-        $result = $conn->query($sql);
+                // Получаем PDF файлы из директории с книгами
+                $pdfFiles = getFilesFromDir($books_dir, "pdf");
 
-        // 3. Обработка результатов запроса
-        if ($result->num_rows > 0) {
-            // Выводим данные о книгах
-            while ($row = $result->fetch_assoc()) {
-                $image_path = htmlspecialchars($row["image"]); // Больше никаких foro/
-                $pdf_path = htmlspecialchars($row["pdf"]);   // Больше никаких books/
-                echo "<div class='book'>";
-                echo "<img src='" . $image_path . "' alt='" . htmlspecialchars($row["title"]) . "'>";
-                echo "<h3>" . htmlspecialchars($row["title"]) . "</h3>";
-                echo "<p>Автор: " . htmlspecialchars($row["author"]) . "</p>";
-                echo "<a href='" . $pdf_path . "' target='_blank'>Читать</a>";
-                echo "</div>";
-            }
+                // Получаем JPG файлы из директории с изображениями
+                $jpgFiles = getFilesFromDir($foro_dir, "jpg");
 
-        } else {
-            echo "<p>В каталоге пока нет книг.</p>";
-        }
 
-        // 4. Закрытие соединения с базой данных
-        $conn->close();
-        ?>
-    </div>
-</section>
+                // Пример данных о книгах (можно расширить - идеально из БД или файла данных)
+                $books = [
+                    ["title" => "Advanced Techniques for the Modern Drummer", "author" => "Jim Chapin", "image" => "book1.jpg", "pdf" => "book1.pdf"],
+                    ["title" => "Stick Control: For the Snare Drummer", "author" => "George L. Stone", "image" => "book2.jpg", "pdf" => "book2.pdf"],
+                    ["title" => "The New Breed", "author" => "Gary Chester","image" => "book3.jpg", "pdf" => "book3.pdf"],
+                    ["title" => "Modern Drummer", "author" => "MD Staff", "image" => "book4.jpg", "pdf" => "book4.pdf"],
+                    ["title" => "Progressive Steps to Syncopation For The Modern Drummer", "author" => "Ted Reed", "image" => "book5.jpg", "pdf" => "book5.pdf"],
+                    ["title" => "Alfred's Drum Method, Bk 1", "author" => "Sandy Feldstein and Dave Black", "image" => "book6.jpg", "pdf" => "book6.pdf"],
+                    ["title" => "Realistic Rock Drum Method", "author" => "Carmine Appice", "image" => "book7.jpg", "pdf" => "book7.pdf"],
+                    ["title" => "Drumset 101", "author" => "Dan Britt", "image" => "book8.jpg", "pdf" => "book8.pdf"]
+                ];
 
-<section id="book_month" class="section">
-    <h2>Книга Месяца</h2>
-    <?php
-    $bookOfMonth = [
-        "title" => "Mastering the Art of Drumming",
-        "author" => "John Riley",
-        "image" => "book_month.jpg",
-        "pdf" => "book_month.pdf",
-        "excerpt" => "A comprehensive guide to jazz drumming techniques, covering everything from basic timekeeping to advanced soloing concepts."
-    ];
-    $bookOfMonth['image'] = "foro/" . $bookOfMonth['image'];
-    $bookOfMonth['pdf'] = "books/" . $bookOfMonth['pdf'];
-    ?>
-    <div class="book-month">
-        <img src="<?php echo htmlspecialchars("foro/" . $bookOfMonth['image']); ?>" alt="<?php echo htmlspecialchars($bookOfMonth['title']); ?>">
-        <h3><?php echo htmlspecialchars($bookOfMonth['title']); ?></h3>
-        <p>Автор: <?php echo htmlspecialchars($bookOfMonth['author']); ?></p>
-        <p>Выжимка: <?php echo htmlspecialchars($bookOfMonth['excerpt']); ?></p>
-        <a href="<?php echo htmlspecialchars("books/" . $bookOfMonth['pdf']); ?>">Читать</a>
-    </div>
-</section>
+                foreach ($books as $book) :
+                    $image_path = "foro/" . $book['image'];
+                    $pdf_path = "books/" . $book['pdf'];
 
+                    //Проверяем существование файлов для большей надежности:
+                    if (!file_exists($image_path) || !file_exists($pdf_path)) {
+                        echo "<p>Ошибка: Отсутствуют файлы для книги {$book['title']}</p>";
+                        continue; // Пропускаем к следующей книге
+                    }
+
+                    ?>
+                    <div class="book">
+                        <img src="<?php echo $image_path; ?>" alt="Обложка книги: <?php echo htmlspecialchars($book['title'], ENT_QUOTES, 'UTF-8'); ?>">
+                        <h3><?php echo htmlspecialchars($book['title'], ENT_QUOTES, 'UTF-8'); ?></h3>
+                        <p>Автор: <?php echo htmlspecialchars($book['author'], ENT_QUOTES, 'UTF-8'); ?></p>
+                        <a href="<?php echo htmlspecialchars($pdf_path, ENT_QUOTES, 'UTF-8'); ?>" target="_blank">Читать</a>
+                    </div>
+                <?php
+                endforeach;
+                ?>
+            </div>
+        </section>
 
         <section id="book_month" class="section">
             <h2>Книга Месяца</h2>
@@ -228,157 +245,37 @@
             $bookOfMonth['pdf'] = "books/" . $bookOfMonth['pdf'];
             ?>
             <div class="book-month">
-                <img src="<?php echo $bookOfMonth['image']; ?>" alt="<?php echo $bookOfMonth['title']; ?>">
-                <h3><?php echo $bookOfMonth['title']; ?></h3>
-                <p>Автор: <?php echo $bookOfMonth['author']; ?></p>
-                <p>Выжимка: <?php echo $bookOfMonth['excerpt']; ?></p>
-                <a href="<?php echo $bookOfMonth['pdf']; ?>">Читать</a>
+                <img src="<?php echo htmlspecialchars($bookOfMonth['image'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($bookOfMonth['title'], ENT_QUOTES, 'UTF-8'); ?>">
+                <h3><?php echo htmlspecialchars($bookOfMonth['title'], ENT_QUOTES, 'UTF-8'); ?></h3>
+                <p>Автор: <?php echo htmlspecialchars($bookOfMonth['author'], ENT_QUOTES, 'UTF-8'); ?></p>
+                <p>Выжимка: <?php echo htmlspecialchars($bookOfMonth['excerpt'], ENT_QUOTES, 'UTF-8'); ?></p>
+                <a href="<?php echo htmlspecialchars($bookOfMonth['pdf'], ENT_QUOTES, 'UTF-8'); ?>">Читать</a>
             </div>
         </section>
 
         <section id="add_books" class="section">
-    <h2>Добавить книги</h2>
-    <form id="addBookForm" action="#add_books" method="POST" enctype="multipart/form-data">
-        <label for="title">Название:</label>
-        <input type="text" id="title" name="title" required><br><br>
+            <h2>Добавить книги</h2>
+            <p>Извините, эта функция еще не реализована.</p>
+        </section>
 
-        <label for="author">Автор:</label>
-        <input type="text" id="author" name="author" required><br><br>
+        <section id="search" class="section">
+            <h2>Поиск</h2>
+            <form id="searchForm">
+                <input type="text" placeholder="Введите название книги или автора...">
+                <button type="submit">Поиск</button>
+            </form>
+            <div id="searchResults"><!-- Search results will be displayed here -->
+            </div>
+        </section>
 
-        <label for="image">Изображение:</label>
-        <input type="file" id="image" name="image" accept="image/*" required><br><br>
-
-        <label for="pdf">PDF:</label>
-        <input type="file" id="pdf" name="pdf" accept=".pdf" required><br><br>
-
-        <button type="submit">Добавить книгу</button>
-    </form>
-
-    <?php
-    include 'db_config.php';
-
-    $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-    if ($conn->connect_error) {
-        die("Ошибка подключения к базе данных: " . $conn->connect_error);
-    }
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Обработка загрузки файлов
-        $target_dir_images = "foro/"; // Каталог для изображений
-        $target_dir_pdfs = "books/";   // Каталог для PDF
-
-        $image = basename($_FILES["image"]["name"]);
-        $pdf = basename($_FILES["pdf"]["name"]);
-
-        $target_file_image = $target_dir_images . $image;
-        $target_file_pdf = $target_dir_pdfs . $pdf;
-
-        $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file_image, PATHINFO_EXTENSION));
-        $pdfFileType = strtolower(pathinfo($target_file_pdf, PATHINFO_EXTENSION));
-
-        // Проверка типов файлов (изображения и PDF) (пример - добавить больше проверок)
-        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
-            echo "Извините, только JPG, JPEG, PNG и GIF файлы разрешены для изображений.<br>";
-            $uploadOk = 0;
-        }
-        if($pdfFileType != "pdf") {
-            echo "Извините, только PDF файлы разрешены.<br>";
-            $uploadOk = 0;
-        }
-        // Другие проверки (размер файла, существование и т.д.) - ОБЯЗАТЕЛЬНО добавить
-
-        if ($uploadOk == 0) {
-            echo "Извините, ваши файлы не были загружены.";
-        } else {
-            // Попытка загрузить файлы
-            if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file_image) && move_uploaded_file($_FILES["pdf"]["tmp_name"], $target_file_pdf)) {
-                // Получение данных из формы
-                $title = $conn->real_escape_string($_POST["title"]);
-                $author = $conn->real_escape_string($_POST["author"]);
-
-                // SQL запрос для добавления книги
-                $sql = "INSERT INTO books (title, author, image, pdf) VALUES ('$title', '$author', '$image', '$pdf')";
-
-                if ($conn->query($sql) === TRUE) {
-                    echo "Книга успешно добавлена!";
-                } else {
-                    echo "Ошибка: " . $sql . "<br>" . $conn->error;
-                }
-            } else {
-                echo "Извините, произошла ошибка при загрузке ваших файлов.";
-            }
-        }
-    }
-    $conn->close();
-    ?>
-</section>
-
-<section id="search" class="section">
-    <h2>Поиск</h2>
-    <form id="searchForm" action="#search" method="GET">
-        <input type="text" name="search" placeholder="Введите название книги или автора">
-        <button type="submit">Найти</button>
-    </form>
-    <?php
-    include 'db_config.php';
-
-    $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-    if ($conn->connect_error) {
-        die("Ошибка подключения к базе данных: " . $conn->connect_error);
-    }
-
-    $search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : ''; // Экранирование!
-    $results = [];
-
-    if (!empty($search)) {
-        $sql = "SELECT id, title, author, image, pdf FROM books WHERE title LIKE '%" . $search . "%' OR author LIKE '%" . $search . "%'";
-        $result = $conn->query($sql);
-
-        if ($result->num_rows > 0) {
-            echo "<h3>Результаты поиска:</h3>";
-            while ($row = $result->fetch_assoc()) {
-                $image_path = "foro/" . htmlspecialchars($row["image"]); // Экранирование!
-                $pdf_path = "books/" . htmlspecialchars($row["pdf"]);   // Экранирование!
-
-                echo "<div class='book'>";
-                echo "<img src='" . $image_path . "' alt='" . htmlspecialchars($row["title"]) . "'>"; // Экранирование!
-                echo "<h3>" . htmlspecialchars($row["title"]) . "</h3>"; // Экранирование!
-                echo "<p>Автор: " . htmlspecialchars($row["author"]) . "</p>"; // Экранирование!
-                echo "<a href='" . $pdf_path . "' target='_blank'>Читать</a>"; // Экранирование!
-                echo "</div>";
-            }
-        } 
-        else {
-            echo "<p>Ничего не найдено по вашему запросу.</p>";
-        }
-    }
-    $conn->close();
-    ?>
-</section>
-
-<section id="contact" class="section">
-    <h2>Контакты</h2>
-    <p>Свяжитесь с нами по email: info@drumlibrary.com</p>
-    <p>Или посетите наш офис по адресу: ул. Барабанная, д. 1</p>
-</section>
     </div>
 
     <footer>
-        <p>&copy; 2025 Библиотека Барабанщика</p>
+        &copy; 2024 Библиотека Барабанщика
     </footer>
-
-    <script>
-        function showSection(sectionId) {
-            let sections = document.querySelectorAll('.section');
-            sections.forEach(section => section.classList.remove('active'));
-
-            let section = document.getElementById(sectionId);
-            section.classList.add('active');
-        }
-
-        showSection('home');
-    </script>
 
 </body>
 </html>
+                
+
+
