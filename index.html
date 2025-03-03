@@ -119,6 +119,24 @@
             height: auto;
             margin-bottom: 10px;
         }
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 колонки одинаковой ширины */
+  grid-auto-rows: minmax(250px, auto); /* Минимальная высота строки */
+  width: 100%;
+  max-width: 1000px;
+  justify-content: center;
+  justify-items: center;
+  column-gap: 30px;
+  row-gap: 40px;
+  margin: 0 auto;
+}
+
+.card {
+    /* Добавьте стили для каждой карточки, если это необходимо */
+}
+
+
 	    .card {
   width: 225px;
   min-height: 350px;
@@ -351,125 +369,123 @@
     </div>
 
 <div class="section" id="catalog">
-        <h2>Каталог книг</h2>
-<div class="cards">  
- <div class="card">  
-  <div class="card__top">    
-    <a href="#" class="card__image">
-      <img src="image/book1.jpg" alt="book1" width="120" height="120"/>
-    </a>    
-    <div class="card__label">pdf</div>
-  </div>  
-  <div class="card__bottom">    
-    <div class="card__prices">
-      <div class="card__price card__price--discount">Jim Chapin</div>      
-    </div>    
-    <a href="https://github.com/Yasya4444/dram.github.io12/blob/main/uploads/books/book1.pdf" class="card__title"> Advanced Techniques for the Modern Drummer </a>    
-    
-  </div>
-
-    <div class="card__top">
-      <a href="#" class="card__image">
-        <img src="image/book2.jpg" alt="book2" width="120" height="120"/>
-      </a>
-      <div class="card__label">pdf</div>
-    </div>
-    <div class="card__bottom">
-      <div class="card__prices">
-        <div class="card__price card__price--discount">George L. Stone</div>
+  <h2>Каталог книг</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="card__top">
+        <a href="#" class="card__image">
+          <img src="image/book1.jpg" alt="book1" width="120" height="120"/>
+        </a>
+        <div class="card__label">pdf</div>
       </div>
-      <a href="uploads/books/book2.pdf" target="_blank" class="card__title">Stick Control: For the Snare Drummer</a>
-    </div>
-  </div>
-	
-<div class="cards">
-  <div class="card">
-    <div class="card__top">
-      <a href="#" class="card__image">
-        <img src="image/book3.jpg" alt="book3" width="120" height="120"/>
-      </a>
-      <div class="card__label">pdf</div>
-    </div>
-    <div class="card__bottom">
-      <div class="card__prices">
-        <div class="card__price card__price--discount">Gary Chester</div>
+      <div class="card__bottom">
+        <div class="card__prices">
+          <div class="card__price card__price--discount">Jim Chapin</div>
+        </div>
+        <a href="uploads/books/book1.pdf" target="_blank" class="card__title">Advanced Techniques for the Modern Drummer</a>
       </div>
-      <a href="uploads/books/book3.pdf" target="_blank" class="card__title">The New Breed</a>
     </div>
-  </div>
-  <div class="card">
-    <div class="card__top">
-      <a href="#" class="card__image">
-        <img src="image/book4.jpg" alt="book4" width="120" height="120"/>
-      </a>
-      <div class="card__label">pdf</div>
-    </div>
-    <div class="card__bottom">
-      <div class="card__prices">
-        <div class="card__price card__price--discount">MD Staff</div>
+    <div class="card">
+      <div class="card__top">
+        <a href="#" class="card__image">
+          <img src="image/book2.jpg" alt="book2" width="120" height="120"/>
+        </a>
+        <div class="card__label">pdf</div>
       </div>
-      <a href="uploads/books/book4.pdf" target="_blank" class="card__title">Modern Drummer</a>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card__top">
-      <a href="#" class="card__image">
-        <img src="image/book5.jpg" alt="book5" width="120" height="120"/>
-      </a>
-      <div class="card__label">pdf</div>
-    </div>
-    <div class="card__bottom">
-      <div class="card__prices">
-        <div class="card__price card__price--discount">Ted Reed</div>
+      <div class="card__bottom">
+        <div class="card__prices">
+          <div class="card__price card__price--discount">George L. Stone</div>
+        </div>
+        <a href="uploads/books/book2.pdf" target="_blank" class="card__title">Stick Control: For the Snare Drummer</a>
       </div>
-      <a href="uploads/books/book5.pdf" target="_blank" class="card__title">Progressive Steps to Syncopation For The Modern Drummer</a>
     </div>
-  </div>
-  <div class="card">
-    <div class="card__top">
-      <a href="#" class="card__image">
-        <img src="image/book6.jpg" alt="book6" width="120" height="120"/>
-      </a>
-      <div class="card__label">pdf</div>
-    </div>
-    <div class="card__bottom">
-      <div class="card__prices">
-        <div class="card__price card__price--discount">Мария Мартинес</div>
+    <div class="card">
+      <div class="card__top">
+        <a href="#" class="card__image">
+          <img src="image/book3.jpg" alt="book3" width="120" height="120"/>
+        </a>
+        <div class="card__label">pdf</div>
       </div>
-      <a href="uploads/books/book6.pdf" target="_blank" class="card__title">Afro-Cuban Coordination for Drumset</a>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card__top">
-      <a href="#" class="card__image">
-        <img src="image/book7.jpg" alt="book7" width="120" height="120"/>
-      </a>
-      <div class="card__label">pdf</div>
-    </div>
-    <div class="card__bottom">
-      <div class="card__prices">
-        <div class="card__price card__price--discount">Carmine Appice</div>
+      <div class="card__bottom">
+        <div class="card__prices">
+          <div class="card__price card__price--discount">Gary Chester</div>
+        </div>
+        <a href="uploads/books/book3.pdf" target="_blank" class="card__title">The New Breed</a>
       </div>
-      <a href="uploads/books/book7.pdf" target="_blank" class="card__title">Realistic Rock Drum Method</a>
     </div>
-  </div>
-  <div class="card">
-    <div class="card__top">
-      <a href="#" class="card__image">
-        <img src="image/book8.jpg" alt="book8" width="120" height="120"/>
-      </a>
-      <div class="card__label">pdf</div>
-    </div>
-    <div class="card__bottom">
-      <div class="card__prices">
-        <div class="card__price card__price--discount">Джон Райли</div>
+    <div class="card">
+      <div class="card__top">
+        <a href="#" class="card__image">
+          <img src="image/book4.jpg" alt="book4" width="120" height="120"/>
+        </a>
+        <div class="card__label">pdf</div>
       </div>
-      <a href="uploads/books/book8.pdf" target="_blank" class="card__title">The Art of Bop Drumming</a>
+      <div class="card__bottom">
+        <div class="card__prices">
+          <div class="card__price card__price--discount">MD Staff</div>
+        </div>
+        <a href="uploads/books/book4.pdf" target="_blank" class="card__title">Modern Drummer</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card__top">
+        <a href="#" class="card__image">
+          <img src="image/book5.jpg" alt="book5" width="120" height="120"/>
+        </a>
+        <div class="card__label">pdf</div>
+      </div>
+      <div class="card__bottom">
+	              <div class="card__prices">
+          <div class="card__price card__price--discount">Ted Reed</div>
+        </div>
+        <a href="uploads/books/book5.pdf" target="_blank" class="card__title">Progressive Steps to Syncopation For The Modern Drummer</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card__top">
+        <a href="#" class="card__image">
+          <img src="image/book6.jpg" alt="book6" width="120" height="120"/>
+        </a>
+        <div class="card__label">pdf</div>
+      </div>
+      <div class="card__bottom">
+        <div class="card__prices">
+          <div class="card__price card__price--discount">Мария Мартинес</div>
+        </div>
+        <a href="uploads/books/book6.pdf" target="_blank" class="card__title">Afro-Cuban Coordination for Drumset</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card__top">
+        <a href="#" class="card__image">
+          <img src="image/book7.jpg" alt="book7" width="120" height="120"/>
+        </a>
+        <div class="card__label">pdf</div>
+      </div>
+      <div class="card__bottom">
+        <div class="card__prices">
+          <div class="card__price card__price--discount">Carmine Appice</div>
+        </div>
+        <a href="uploads/books/book7.pdf" target="_blank" class="card__title">Realistic Rock Drum Method</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card__top">
+        <a href="#" class="card__image">
+          <img src="image/book8.jpg" alt="book8" width="120" height="120"/>
+        </a>
+        <div class="card__label">pdf</div>
+      </div>
+      <div class="card__bottom">
+        <div class="card__prices">
+          <div class="card__price card__price--discount">Джон Райли</div>
+        </div>
+        <a href="uploads/books/book8.pdf" target="_blank" class="card__title">The Art of Bop Drumming</a>
+      </div>
     </div>
   </div>
 </div>
-    
-    <div class="section" id="add_books">
+	      <div class="section" id="add_books">
         <h2>Добавить книгу</h2>
         <form action="add_book.php" method="POST">
             <input type="text" name="title" placeholder="Название книги" required>
