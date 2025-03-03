@@ -1,4 +1,10 @@
     USE drum_library;
+        -- Обновить пути для изображений
+        UPDATE files SET file_path = REPLACE(file_path, '/старый/путь/', 'uploads/foro/') WHERE file_type LIKE 'image%';
+
+        -- Обновить пути для PDF-файлов
+        UPDATE files SET file_path = REPLACE(file_path, '/старый/путь/', 'uploads/books/') WHERE file_type = 'application/pdf';
+
     INSERT INTO books (title, author, image, pdf) VALUES
     ('Advanced Techniques for the Modern Drummer', 'Jim Chapin', 'book1.jpg', 'book1.pdf');
     INSERT INTO books (title, author, image, pdf) VALUES
