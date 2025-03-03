@@ -235,49 +235,130 @@
         </section>
 
         <section id="add_books" class="section">
-            <h2>Добавить книги</h2>
-            <p>Извините, эта функция еще не реализована.</p>
-        </section>
+    <h2>Добавить книги</h2>
+    <form id="addBookForm" action="#add_books" method="POST" enctype="multipart/form-data">
+        <label for="title">Название:</label>
+        <input type="text" id="title" name="title" required><br><br>
 
-        <section id="search" class="section">
-            <h2>Поиск</h2>
-            <form id="searchForm" action="#search" method="GET">
-                <input type="text" name="search" placeholder="Введите название книги или автора">
-                <button type="submit">Найти</button>
-            </form>
-            <?php
-            $search = isset($_GET['search']) ? $_GET['search'] : '';
-            $results = [];
-            if (!empty($search)) {
-                foreach ($books as $book) {
-                    if (stripos($book['title'], $search) !== false || stripos($book['author'], $search) !== false) {
-                        $results[] = $book;
-                    }
-                }
+        <label for="author">Автор:</label>
+        <input type="text" id="author" name="author" required><br><br>
 
-                if (!empty($results)) {
-                    echo "<h3>Результаты поиска:</h3>";
-                    foreach ($results as $book) {
-                        echo "<div class='book'>";
-                        echo "<img src='" . $book['image'] . "' alt='" . $book['title'] . "'>";
-                        echo "<h3>" . $book['title'] . "</h3>";
-                        echo "<p>Автор: " . $book['author'] . "</p>";
-                        echo "<a href='" . $book['pdf'] . "'>Читать</a>"; // Link to PDF
-                        echo "</div>";
-                    }
+        <label for="image">Изображение:</label>
+        <input type="file" id="image" name="image" accept="image/*" required><br><br>
+
+        <label for="pdf">PDF:</label>
+        <input type="file" id="pdf" name="pdf" accept=".pdf" required><br><br>
+
+        <button type="submit">Добавить книгу</button>
+    </form>
+
+    <?php
+    include 'db_config.php';
+
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+    if ($conn->connect_error) {
+        die("Ошибка подключения к базе данных: " . $conn->connect_error);
+    }
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Обработка загрузки файлов
+        $target_dir_images = "foro/"; // Каталог для изображений
+        $target_dir_pdfs = "books/";   // Каталог для PDF
+
+        $image = basename($_FILES["image"]["name"]);
+        $pdf = basename($_FILES["pdf"]["name"]);
+
+        $target_file_image = $target_dir_images . $image;
+        $target_file_pdf = $target_dir_pdfs . $pdf;
+
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file_image, PATHINFO_EXTENSION));
+        $pdfFileType = strtolower(pathinfo($target_file_pdf, PATHINFO_EXTENSION));
+
+        // Проверка типов файлов (изображения и PDF) (пример - добавить больше проверок)
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+            echo "Извините, только JPG, JPEG, PNG и GIF файлы разрешены для изображений.<br>";
+            $uploadOk = 0;
+        }
+        if($pdfFileType != "pdf") {
+            echo "Извините, только PDF файлы разрешены.<br>";
+            $uploadOk = 0;
+        }
+        // Другие проверки (размер файла, существование и т.д.) - ОБЯЗАТЕЛЬНО добавить
+
+        if ($uploadOk == 0) {
+            echo "Извините, ваши файлы не были загружены.";
+        } else {
+            // Попытка загрузить файлы
+            if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file_image) && move_uploaded_file($_FILES["pdf"]["tmp_name"], $target_file_pdf)) {
+                // Получение данных из формы
+                $title = $conn->real_escape_string($_POST["title"]);
+                $author = $conn->real_escape_string($_POST["author"]);
+
+                // SQL запрос для добавления книги
+                $sql = "INSERT INTO books (title, author, image, pdf) VALUES ('$title', '$author', '$image', '$pdf')";
+
+                if ($conn->query($sql) === TRUE) {
+                    echo "Книга успешно добавлена!";
                 } else {
-                    echo "<p>Ничего не найдено по вашему запросу.</p>";
+                    echo "Ошибка: " . $sql . "<br>" . $conn->error;
                 }
+            } else {
+                echo "Извините, произошла ошибка при загрузке ваших файлов.";
             }
-            ?>
-        </section>
+        }
+    }
+    $conn->close();
+    ?>
+</section>
 
-        <section id="contact" class="section">
-            <h2>Контакты</h2>
-            <p>Свяжитесь с нами по email: info@drumlibrary.com</p>
-            <p>Или посетите наш офис по адресу: ул. Барабанная, д. 1</p>
-        </section>
+<section id="search" class="section">
+    <h2>Поиск</h2>
+    <form id="searchForm" action="#search" method="GET">
+        <input type="text" name="search" placeholder="Введите название книги или автора">
+        <button type="submit">Найти</button>
+    </form>
+    <?php
+    include 'db_config.php';
 
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+    if ($conn->connect_error) {
+        die("Ошибка подключения к базе данных: " . $conn->connect_error);
+    }
+
+    $search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : ''; // Экранирование!
+    $results = [];
+
+    if (!empty($search)) {
+        $sql = "SELECT id, title, author, image, pdf FROM books WHERE title LIKE '%" . $search . "%' OR author LIKE '%" . $search . "%'";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            echo "<h3>Результаты поиска:</h3>";
+            while ($row = $result->fetch_assoc()) {
+                $image_path = "foro/" . htmlspecialchars($row["image"]); // Экранирование!
+                $pdf_path = "books/" . htmlspecialchars($row["pdf"]);   // Экранирование!
+
+                echo "<div class='book'>";
+                echo "<img src='" . $image_path . "' alt='" . htmlspecialchars($row["title"]) . "'>"; // Экранирование!
+                echo "<h3>" . htmlspecialchars($row["title"]) . "</h3>"; // Экранирование!
+                echo "<p>Автор: " . htmlspecialchars($row["author"]) . "</p>"; // Экранирование!
+                echo "<a href='" . $pdf_path . "' target='_blank'>Читать</a>"; // Экранирование!
+                echo "</div>";
+            }
+        } else {
+            echo "<p>Ничего не найдено по вашему запросу.</p>";
+        }
+    }
+    $conn->close();
+    ?>
+</section>
+
+<section id="contact" class="section">
+    <h2>Контакты</h2>
+    <p>Свяжитесь с нами по email: info@drumlibrary.com</p>
+    <p>Или посетите наш офис по адресу: ул. Барабанная, д. 1</p>
+</section>
     </div>
 
     <footer>
