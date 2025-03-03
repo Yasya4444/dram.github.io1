@@ -39,4 +39,15 @@ if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
 } else {
     echo "Извините, произошла ошибка при загрузке файла.";
 }
+// Разрешенные типы файлов
+$allowedImageTypes = array("jpg", "jpeg", "png", "gif");
+$allowedPdfTypes = array("pdf");
+
+if ($upload_type == "image" && !in_array($imageFileType, $allowedImageTypes)) {
+    echo "Извините, разрешены только JPG, JPEG, PNG, GIF файлы для обложек.";
+    $uploadOk = 0;
+} elseif ($upload_type == "pdf" && !in_array($imageFileType, $allowedPdfTypes)) {
+    echo "Извините, разрешены только PDF файлы для документов.";
+    $uploadOk = 0;
+}
 ?>
