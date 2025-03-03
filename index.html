@@ -119,6 +119,146 @@
             height: auto;
             margin-bottom: 10px;
         }
+	    .card {
+  width: 225px;
+  min-height: 350px;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column; /* Размещаем элементы в колонку */
+  border-radius: 4px;
+  transition: 0.2s;
+  position: relative;
+}
+
+/* При наведении на карточку - меняем цвет тени */
+.card:hover {
+  box-shadow: 4px 8px 16px rgba(255, 102, 51, 0.2);
+}
+
+.card__top {
+  flex: 0 0 220px; /* Задаем высоту 220px, запрещаем расширение и сужение по высоте */
+  position: relative;
+  overflow: hidden; /* Скрываем, что выходит за пределы */
+}
+
+/* Контейнер для картинки */
+.card__image {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.card__image > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Встраиваем картинку в контейнер card__image */
+  transition: 0.2s;
+}
+
+/* При наведении - увеличиваем картинку */
+.card__image:hover > img {
+  transform: scale(1.1);
+}
+
+/* Размещаем скидку на товар относительно изображения */
+.card__label {
+  padding: 4px 8px;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: #ff6633;
+  border-radius: 4px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #fff;
+}
+
+.card__bottom {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto; /* Занимаем всю оставшуюся высоту карточки */
+  padding: 10px;
+}
+
+.card__prices {
+  display: flex;
+  margin-bottom: 10px;
+  flex: 0 0 50%; /* Размещаем цены равномерно в две колонки */
+}
+
+.card__price::after {
+  content: "₽";
+  margin-left: 4px;
+  position: relative;
+}
+
+.card__price--discount {
+  font-weight: 700;
+  font-size: 19px;
+  color: #414141;
+  display: flex;
+  flex-wrap: wrap-reverse;
+}
+
+.card__price--discount::before {
+  content: "Со скидкой";
+  font-weight: 400;
+  font-size: 13px;
+  color: #bfbfbf;
+}
+
+.card__price--common {
+  font-weight: 400;
+  font-size: 17px;
+  color: #606060;
+  display: flex;
+  flex-wrap: wrap-reverse;
+  justify-content: flex-end;
+}
+
+.card__price--common::before {
+  content: "Обычная";
+  font-weight: 400;
+  font-size: 13px;
+  color: #bfbfbf;
+}
+
+.card__title {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 150%;
+  color: #414141;
+}
+
+.card__title:hover {
+  color: #ff6633;
+}
+
+.card__add {
+  display: block;
+  width: 100%;
+  font-weight: 400;
+  font-size: 17px;
+  color: #70c05b;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #70c05b;
+  border-radius: 4px;
+  cursor: pointer; /* Меняем курсор при наведении */
+  transition: 0.2s;
+  margin-top: auto; /* Прижимаем кнопку к низу карточки */
+}
+
+.card__add:hover {
+  border: 1px solid #ff6633;
+  background-color: #ff6633;
+  color: #fff;
+}
 				
 	.cards {
 		display: grid;/* Автоматически заполняем на всю ширину grid-контейнера */
@@ -206,14 +346,127 @@
 
     <div class="section" id="catalog">
         <h2>Каталог книг</h2>
-		<div class="cards">
-		   <div class="card" style="width: 18rem;">
-			   <img src="image/book1.jpg" class="card-img-top" alt="1" width="120" height="120">
-			   <div class="card-body">
-				   <h5 class="card-title">Название карточки</h5>
-				   <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-				  <a href="#" class="btn btn-primary">Go somewhere</a>
-			   </div>
+		<div class="card">  
+  <div class="card__top">    
+    <a href="#" class="card__image">
+      <img src="image/book1.jpg" alt="book1" width="120" height="120"/>
+    </a>    
+    <div class="card__label">pdf</div>
+  </div>  
+  <div class="card__bottom">    
+    <div class="card__prices">
+      <div class="card__price card__price--discount">Jim Chapin</div>      
+    </div>    
+    <a href="#" class="card__title"> Advanced Techniques for the Modern Drummer </a>    
+    <button class="card__add">Читать</button>
+  </div>
+</div>
+<div class="card">  
+  <div class="card__top">    
+    <a href="#" class="card__image">
+      <img src="image/book2.jpg" alt="book2" width="120" height="120"/>
+    </a>    
+    <div class="card__label">pdf</div>
+  </div>  
+  <div class="card__bottom">    
+    <div class="card__prices">
+      <div class="card__price card__price--discount">George L. Stone</div>      
+    </div>    
+    <class="card__title"> Stick Control: For the Snare Drummer </a>    
+    <button  a href="#" class="card__add">Читать</button>
+  </div>
+</div>
+<div class="card">  
+
+  <div class="card__top">    
+    <a href="#" class="card__image">
+      <img src="image/book3.jpg" alt="book3" width="120" height="120"/>
+    </a>    
+    <div class="card__label">pdf</div>
+  </div>  
+  <div class="card__bottom">    
+    <div class="card__prices">
+      <div class="card__price card__price--discount">Gary Chester</div>      
+    </div>    
+    <class="card__title"> The New Breed </a>    
+    <button  a href="#"  class="card__add">Читать</button>
+  </div>
+</div>
+<div class="card">  
+  <div class="card__top">    
+    <a href="#" class="card__image">
+      <img src="image/book4.jpg" alt="book4" width="120" height="120"/>
+    </a>    
+    <div class="card__label">pdf</div>
+  </div>  
+  <div class="card__bottom">    
+    <div class="card__prices">
+      <div class="card__price card__price--discount">MD Staff</div>      
+    </div>    
+    <class="card__title"> Modern Drummer </a>    
+    <button  a href="#"  class="card__add">Читать</button>
+  </div>
+</div>
+<div class="card">  
+  <div class="card__top">    
+    <a href="#" class="card__image">
+      <img src="image/book5.jpg" alt="book5" width="120" height="120"/>
+    </a>    
+    <div class="card__label">pdf</div>
+  </div>  
+  <div class="card__bottom">    
+    <div class="card__prices">
+      <div class="card__price card__price--discount">Ted Reed</div>      
+    </div>    
+    <class="card__title"> Progressive Steps to Syncopation For The Modern Drummer </a>    
+    <button  a href="#"  class="card__add">Читать</button>
+  </div>
+</div>
+<div class="card">  
+  <div class="card__top">    
+    <a href="#" class="card__image">
+      <img src="image/book6.jpg" alt="book6" width="120" height="120"/>
+    </a>    
+    <div class="card__label">pdf</div>
+  </div>  
+  <div class="card__bottom">    
+    <div class="card__prices">
+      <div class="card__price card__price--discount">Мария Мартинес</div>      
+    </div>    
+    <class="card__title"> Afro-Cuban Coordination for Drumset </a>    
+    <button  a href="#"  class="card__add">Читать</button>
+  </div>
+</div>
+<div class="card">  
+  <div class="card__top">    
+    <a href="#" class="card__image">
+      <img src="image/book7.jpg" alt="book7" width="120" height="120"/>
+    </a>    
+    <div class="card__label">pdf</div>
+  </div>  
+  <div class="card__bottom">    
+    <div class="card__prices">
+      <div class="card__price card__price--discount">Carmine Appice</div>      
+    </div>    
+    <class="card__title"> Realistic Rock Drum Method </a>    
+    <button  a href="#"  class="card__add">Читать</button>
+  </div>
+</div>
+<div class="card">  
+  <div class="card__top">    
+    <a href="#" class="card__image">
+      <img src="image/book8.jpg" alt="book8" width="120" height="120"/>
+    </a>    
+    <div class="card__label">pdf</div>
+  </div>  
+  <div class="card__bottom">    
+    <div class="card__prices">
+      <div class="card__price card__price--discount">Джон Райли</div>      
+    </div>    
+    <class="card__title"> The Art of Bop Drumming </a>
+	    <button  a href="#"  class="card__add">Читать</button>
+  </div>
+</div>
 		   </div>
                    <div class="card" style="width: 18rem;">
 			   <img src="image/book2.jpg" class="card-img-top" alt="2" width="120" height="120">
