@@ -175,16 +175,16 @@ error_reporting(E_ALL);
         if ($result->num_rows > 0) {
             // Выводим данные о книгах
             while ($row = $result->fetch_assoc()) {
-                $image_path = "foro/" . htmlspecialchars($row["image"]); // Экранирование!
-                $pdf_path = "books/" . htmlspecialchars($row["pdf"]);   // Экранирование!
-
+                $image_path = htmlspecialchars($row["image"]); // Больше никаких foro/
+                $pdf_path = htmlspecialchars($row["pdf"]);   // Больше никаких books/
                 echo "<div class='book'>";
-                echo "<img src='" . $image_path . "' alt='" . htmlspecialchars($row["title"]) . "'>"; // Экранирование!
-                echo "<h3>" . htmlspecialchars($row["title"]) . "</h3>"; // Экранирование!
-                echo "<p>Автор: " . htmlspecialchars($row["author"]) . "</p>"; // Экранирование!
-                echo "<a href='" . $pdf_path . "' target='_blank'>Читать</a>"; // Экранирование!
+                echo "<img src='" . $image_path . "' alt='" . htmlspecialchars($row["title"]) . "'>";
+                echo "<h3>" . htmlspecialchars($row["title"]) . "</h3>";
+                echo "<p>Автор: " . htmlspecialchars($row["author"]) . "</p>";
+                echo "<a href='" . $pdf_path . "' target='_blank'>Читать</a>";
                 echo "</div>";
             }
+
         } else {
             echo "<p>В каталоге пока нет книг.</p>";
         }
