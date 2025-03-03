@@ -120,17 +120,17 @@
             margin-bottom: 10px;
         }
 				
-		.cards {
-		    display: grid;/* Автоматически заполняем на всю ширину grid-контейнера */
-		    grid-template-columns: repeat(auto-fill, 225px);
-		    width: 100%;
-			max-width: 1000px; /* Ширина grid-контейнера */
-			justify-content: center;
-			justify-items: center; /* Размещаем карточку по центру */
-			column-gap: 30px; /* Отступ между колонками */
-			row-gap: 40px; /* Отступ между рядами */
-			margin: 0 auto;
-		}
+	.cards {
+		display: grid;/* Автоматически заполняем на всю ширину grid-контейнера */
+		grid-template-columns: repeat(auto-fill, 225px);
+		width: 100%;
+		max-width: 1000px; /* Ширина grid-контейнера */
+		justify-content: center;
+		justify-items: center; /* Размещаем карточку по центру */
+		column-gap: 30px; /* Отступ между колонками */
+		row-gap: 40px; /* Отступ между рядами */
+	        margin: 0 auto;
+	}
 		
     </style>
     <script>
@@ -172,55 +172,70 @@
     <div class="section" id="catalog">
         <h2>Каталог книг</h2>
 		<div class="cards">
-		   <div class="card">
-			   <img src="image/book1.jpg" class="card-img-top" alt="book1" >
+		   <div class="card" style="width: 18rem;">
+			   <img src="image/book1.jpg" class="card-img-top" alt="1">
 			   <div class="card-body">
-				   <h5 class="card-title">Jim Chapin</h5>
-				   <p class="card-text">Advanced Techniques for the Modern Drummer</p>
-				   <a href="#" class="btn btn-primary">Читать</a>
+				   <h5 class="card-title">Название карточки</h5>
+				   <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  <a href="#" class="btn btn-primary">Go somewhere</a>
 			   </div>
-                   <div class="card">
-			   <img src="image/book2.jpg" class="card-img-top" alt="book2">
+		   </div>
+                   <div class="card" style="width: 18rem;">
+			   <img src="image/book2.jpg" class="card-img-top" alt="2">
 			   <div class="card-body">
-				   <h5 class="card-title">George L. Stone</h5>
-				   <p class="card-text">Stick Control: For the Snare Drummer</p>
-				   <a href="#" class="btn btn-primary">Читать</a>
-		           </div>
-                   <div class="card">
-		           <img src="image/book3.jpg" class="card-img-top" alt="book3">
+				   <h5 class="card-title">Название карточки</h5>
+				   <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  <a href="#" class="btn btn-primary">Go somewhere</a>
+			   </div>
+		   </div>
+                   <div class="card" style="width: 18rem;">
+			   <img src="image/book3.jpg" class="card-img-top" alt="3">
 			   <div class="card-body">
-			           <h5 class="card-title">Gary Chester</h5>
-                                   <p class="card-text">The New Breed</p>
-                                   <a href="#" class="btn btn-primary">Читать</a>
-                           </div>
-		   <div class="card">
-		           <img src="image/book4.jpg" class="card-img-top" alt="book4" >
+				   <h5 class="card-title">Название карточки</h5>
+				   <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  <a href="#" class="btn btn-primary">Go somewhere</a>
+			   </div>
+		   </div>
+		   <div class="card" style="width: 18rem;">
+			   <img src="image/book4.jpg" class="card-img-top" alt="4">
 			   <div class="card-body">
-			           <h5 class="card-title">MD Staff</h5>
-                                   <p class="card-text">Modern Drummer</p>
-                                   <a href="#" class="btn btn-primary">Читать</a>
-                           </div>
-		   <div class="card">
-		           <img src="image/book5.jpg" class="card-img-top" alt="book5" >
+				   <h5 class="card-title">Название карточки</h5>
+				   <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  <a href="#" class="btn btn-primary">Go somewhere</a>
+			   </div>
+		   </div>
+		   <div class="card" style="width: 18rem;">
+			   <img src="image/book5.jpg" class="card-img-top" alt="5">
 			   <div class="card-body">
-			           <h5 class="card-title">Ted Reed</h5>
-                                   <p class="card-text">Progressive Steps to Syncopation For The Modern Drummer</p>
-                                   <a href="#" class="btn btn-primary">Читать</a>
-                           </div>
-		   <div class="card">
-		           <img src="image/book6.jpg" class="card-img-top" alt="book6" >
+				   <h5 class="card-title">Название карточки</h5>
+				   <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  <a href="#" class="btn btn-primary">Go somewhere</a>
+			   </div>
+		   </div>
+		   <div class="card" style="width: 18rem;">
+			   <img src="image/book6.jpg" class="card-img-top" alt="6">
 			   <div class="card-body">
-			           <h5 class="card-title">Gary Chester</h5>
-                                   <p class="card-text">The New Breed</p>
-                                   <a href="#" class="btn btn-primary">Читать</a>
-                           </div>
-		   <div class="card">
-		           <img src="image/book7.jpg" class="card-img-top" alt="book7" >
+				   <h5 class="card-title">Название карточки</h5>
+				   <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  <a href="#" class="btn btn-primary">Go somewhere</a>
+			   </div>
+		   </div>
+		   <div class="card" style="width: 18rem;">
+			   <img src="image/book7.jpg" class="card-img-top" alt="7">
 			   <div class="card-body">
-			           <h5 class="card-title">Gary Chester</h5>
-                                   <p class="card-text">The New Breed</p>
-                                   <a href="#" class="btn btn-primary">Читать</a>
-                           </div>
+				   <h5 class="card-title">Название карточки</h5>
+				   <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  <a href="#" class="btn btn-primary">Go somewhere</a>
+			   </div>
+		   </div>
+		   <div class="card" style="width: 18rem;">
+			   <img src="image/book8.jpg" class="card-img-top" alt="8">
+			   <div class="card-body">
+				   <h5 class="card-title">Название карточки</h5>
+				   <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  <a href="#" class="btn btn-primary">Go somewhere</a>
+			   </div>
+		   </div>
 			
        
     </div>
