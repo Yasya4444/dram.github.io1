@@ -10,11 +10,11 @@
     INSERT INTO books (title, author, image, pdf) VALUES
     ('Progressive Steps to Syncopation For The Modern Drummer', 'Ted Reed', 'book5.jpg', 'book5.pdf');
     INSERT INTO books (title, author, image, pdf) VALUES
-    ("Alfred's Drum Method, Bk 1", 'Sandy Feldstein and Dave Black', 'book6.jpg', 'book6.pdf');
+    ("Afro-Cuban Coordination for Drumset", 'Мария Мартинес', 'book6.jpg', 'book6.pdf');
     INSERT INTO books (title, author, image, pdf) VALUES
     ('Realistic Rock Drum Method', 'Carmine Appice', 'book7.jpg', 'book7.pdf');
     INSERT INTO books (title, author, image, pdf) VALUES
-    ('Drumset 101', 'Dan Britt', 'book8.jpg', 'book8.pdf');
+    ('The Art of Bop Drumming', ' Джон Райли', 'book8.jpg', 'book8.pdf');
 
     SELECT * FROM books;
     
